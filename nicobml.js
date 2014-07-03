@@ -11,13 +11,13 @@ try{
 	//生放送タイトル
 	var title = d.querySelector('meta[property="og:title"]').content;
 	//Googleカレンダーに移動
-	d.location = getURL(date_from, date_to, title);
-} catch(e){
+	location.href = getURL(date_from, date_to, title);
+}catch(e){
 	console.error(e);
 }
 //開場時間を開演時間に変更（10分前、3分前、30分前に対応）
 function trimDate(date){
-	switch(date.getMinutes()) {
+	switch(date.getMinutes()){
 		case 20:
 		case 50:
 			return new Date(date.getTime() + 600000);
@@ -30,6 +30,7 @@ function trimDate(date){
 			return date;
 	}
 }
+//日時の表示形式変換
 function getUTC(date){
 	function pad(n){return n<10 ? '0'+n : n}
 	return date.getUTCFullYear() +
@@ -41,6 +42,7 @@ function getUTC(date){
 		pad(date.getUTCSeconds()) +
 		'Z';
 }
+//GoogleカレンダーURL作成
 function getURL(from, to, text){
   return 'https://www.google.com/calendar/render?' +
   'action=' + 'TEMPLATE' +
