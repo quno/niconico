@@ -8,10 +8,11 @@ try{
 	var date_from = trimDate(new Date(date_published.content));
 	//終了時間（1時間後）
 	var date_to = new Date(date_from.getTime() + 3600000);
-	//生放送タイトル
+	//生放送タイトル・URL
 	var title = d.querySelector('meta[property="og:title"]').content;
+	var url = d.querySelector('meta[property="og:url"]').content;
 	//Googleカレンダーに移動
-	location.href = getURL(date_from, date_to, title);
+	location.href = getURL(date_from, date_to, title, url);
 }catch(e){
 	console.error(e);
 }
@@ -32,7 +33,7 @@ function trimDate(date){
 }
 //日時の表示形式変換
 function getUTC(date){
-	function pad(n){return n<10 ? '0'+n : n}
+	function pad(n){ return n < 10 ? '0'+n : n; }
 	return date.getUTCFullYear() +
 		pad(date.getUTCMonth()+1) +
 		pad(date.getUTCDate()) +
@@ -43,13 +44,13 @@ function getUTC(date){
 		'Z';
 }
 //GoogleカレンダーURL作成
-function getURL(from, to, text){
+function getURL(date_from, date_to, title, url){
   return 'https://www.google.com/calendar/render?' +
-  'action=' + 'TEMPLATE' +
-  '&text='  + encodeURIComponent(text) +
-  '&dates=' + getUTC(from) + '/' + getUTC(to) +
-  '&details=' +
+  'action='    + 'TEMPLATE' +
+  '&text='     + encodeURIComponent(title) +
+  '&dates='    + getUTC(date_from) + '/' + getUTC(date_to) +
+  '&details='  + encodeURIComponent(url) +
   '&location=' +
-  '&trp=false&sf=true&output=xml';
+  '&trp=true&sf=true&output=xml';
 };
 })(document);
