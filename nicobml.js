@@ -34,7 +34,8 @@ function trimDate(date){
 //日時の表示形式変換
 function getUTC(date){
 	function pad(n){ return n < 10 ? '0'+n : n; }
-	return date.getUTCFullYear() +
+	return '' +
+		date.getUTCFullYear() +
 		pad(date.getUTCMonth()+1) +
 		pad(date.getUTCDate()) +
 		'T' +
