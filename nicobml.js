@@ -1,26 +1,4 @@
 ((d) => {
-	try {
-		//エラー処理
-		let loc = location.toString();
-		if (loc.indexOf('live.nicovideo.jp/watch/lv') < 0 && loc.indexOf('live.nicovideo.jp/gate/lv') < 0) {
-			throw 'このURLでは無効です。';
-		}
-		let date_published = d.querySelector('meta[itemprop="datePublished"]');
-		if (date_published === null) {
-			throw '現在は使用できません。';
-		}
-		//開演時間
-		let date_from = trimDate(new Date(date_published.content));
-		//終了時間（1時間後）
-		let date_to = new Date(date_from.getTime() + 3600000);
-		//生放送タイトル・URL
-		let title = d.querySelector('meta[property="og:title"]').content;
-		let url = d.querySelector('meta[property="og:url"]').content;
-		//Googleカレンダーに移動
-		location.href = generateURL(date_from, date_to, title, url);
-	} catch (e) {
-		alert(e);
-	}
 	//開場時間を開演時間に変更（10分前、3分前、30分前に対応）
 	const trimDate = (date) => {
 		switch (date.getMinutes()) {
@@ -60,5 +38,27 @@
 			'&details=' + encodeURIComponent(url) +
 			'&location=' +
 			'&trp=true&sf=true&output=xml';
+	}
+	try {
+		//エラー処理
+		let loc = location.toString();
+		if (loc.indexOf('live.nicovideo.jp/watch/lv') < 0 && loc.indexOf('live.nicovideo.jp/gate/lv') < 0) {
+			throw 'このURLでは無効です。';
+		}
+		let date_published = d.querySelector('meta[itemprop="datePublished"]');
+		if (date_published === null) {
+			throw '現在は使用できません。';
+		}
+		//開演時間
+		let date_from = trimDate(new Date(date_published.content));
+		//終了時間（1時間後）
+		let date_to = new Date(date_from.getTime() + 3600000);
+		//生放送タイトル・URL
+		let title = d.querySelector('meta[property="og:title"]').content;
+		let url = d.querySelector('meta[property="og:url"]').content;
+		//Googleカレンダーに移動
+		location.href = generateURL(date_from, date_to, title, url);
+	} catch (e) {
+		alert(e);
 	}
 })(document);
