@@ -1,6 +1,6 @@
-((d) => {
-	//開場時間を開演時間に変更（10分前、3分前、30分前に対応）
-	const trimDate = (date) => {
+(() => {
+	// 開場時間を開演時間に変更（10分前、3分前、30分前に対応）
+	const trimDatetime = (date) => {
 		switch (date.getMinutes()) {
 			case 20:
 			case 50:
@@ -13,8 +13,8 @@
 			default:
 				return date;
 		}
-	}
-	//日時の表示形式変換
+	};
+	// 日時の表示形式変換
 	const getUTC = (date) => {
 		const pad = (n) => {
 			return n < 10 ? '0' + n : n;
@@ -28,37 +28,39 @@
 			pad(date.getUTCMinutes()) +
 			pad(date.getUTCSeconds()) +
 			'Z';
-	}
-	//GoogleカレンダーURL作成
-	const generateURL = (date_from, date_to, title, url) => {
+	};
+	// GoogleカレンダーURL作成
+	const generateURL = (from, to, title, url) => {
 		return 'https://www.google.com/calendar/render?' +
 			'action=' + 'TEMPLATE' +
 			'&text=' + encodeURIComponent(title) +
-			'&dates=' + getUTC(date_from) + '/' + getUTC(date_to) +
+			'&dates=' + getUTC(from) + '/' + getUTC(to) +
 			'&details=' + encodeURIComponent(url) +
 			'&location=' +
 			'&trp=true&sf=true&output=xml';
-	}
+	};
 	try {
-		//エラー処理
-		let loc = location.toString();
+    const doc = document;
+		// エラー処理
+		const loc = doc.URL;
 		if (loc.indexOf('live.nicovideo.jp/watch/lv') < 0 && loc.indexOf('live.nicovideo.jp/gate/lv') < 0) {
 			throw 'このURLでは無効です。';
 		}
-		let date_published = d.querySelector('meta[itemprop="datePublished"]');
+		let date_published = doc.querySelector('meta[itemprop="datePublished"]');
 		if (date_published === null) {
 			throw '現在は使用できません。';
 		}
-		//開演時間
-		let date_from = trimDate(new Date(date_published.content));
-		//終了時間（1時間後）
-		let date_to = new Date(date_from.getTime() + 3600000);
-		//生放送タイトル・URL
-		let title = d.querySelector('meta[property="og:title"]').content;
-		let url = d.querySelector('meta[property="og:url"]').content;
-		//Googleカレンダーに移動
-		location.href = generateURL(date_from, date_to, title, url);
+		// 開演時間
+		let datetime_from = trimDatetime(new Date(date_published.content));
+		// 終了時間（1時間後）
+		let datetime_to = new Date(datetime_from.getTime() + 3600000);
+		// 生放送タイトル・URL
+		let live_title = doc.querySelector('meta[property="og:title"]').content;
+		let live_url = doc.querySelector('meta[property="og:url"]').content;
+		// Googleカレンダーに移動
+    let calender_url = generateURL(datetime_from, datetime_to, live_title, live_url);
+    windows.open(calender_url, '_blank');
 	} catch (e) {
 		alert(e);
 	}
-})(document);
+})();
