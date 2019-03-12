@@ -59,7 +59,7 @@
 		let live_url = doc.querySelector('meta[property="og:url"]').content;
 		// Googleカレンダーに移動
     let calender_url = generateURL(datetime_from, datetime_to, live_title, live_url);
-    windows.open(calender_url, '_blank');
+    window.open(calender_url, '_blank');
 	} catch (e) {
 		alert(e);
 	}
