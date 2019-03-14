@@ -1,7 +1,6 @@
 niconico
 ========
 
-* link.html
 * nicobml.js
 
 ニコニコ生放送の予定をGoogleカレンダーに追加するブックマークレット。  
@@ -12,5 +11,8 @@ nicobml.jsを外部JSとしてブックマークレットで呼び出す仕組�
 
 ### 使い方
 
-1. link.htmlをローカルに保存して開く
-2. 「カレンダー追加」のリンクをブックマークバーに登録（ドラッグ）
+1. 下記のコードをブックマークとして登録
+```
+javascript:(function(){var%20d=document;var%20script=d.createElement('script');script.setAttribute('src','https://cdn.jsdelivr.net/gh/quno/niconico@latest/nicobml.js');d.body.appendChild(script);})();
+```
+2. 生放送のページでブックマークレットを起動
