@@ -13,6 +13,6 @@ nicobml.jsを外部JSとしてブックマークレットで呼び出す仕組�
 
 1. 下記のコードをブックマークとして登録
 ```
-javascript:(function(){var%20d=document;var%20script=d.createElement('script');script.setAttribute('src','https://cdn.jsdelivr.net/gh/quno/niconico@latest/nicobml.js');d.body.appendChild(script);})();
+javascript:(()=>{let%20d=document;let%20script=d.createElement('script');script.setAttribute('src','https://cdn.jsdelivr.net/gh/quno/niconico@latest/nicobml.js');d.body.appendChild(script);})();
 ```
 2. 生放送のページでブックマークレットを起動
